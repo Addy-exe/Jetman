@@ -1,0 +1,123 @@
+[gd_scene format=3 uid="uid://7401ldach114"]
+
+[ext_resource type="Script" uid="uid://cuytssqmvqj63" path="res://player.gd" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://duuyxjs21h1fq" path="res://main.gd" id="1_h2yge"]
+[ext_resource type="PackedScene" uid="uid://crhvc7l3pgkl6" path="res://missle.tscn" id="2_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://otmqcery1oga" path="res://fuel.tscn" id="3_272bh"]
+[ext_resource type="Texture2D" uid="uid://pig5hft3746l" path="res://art/cj.png" id="5_5vw27"]
+[ext_resource type="Script" uid="uid://qbn5a1coqje2" path="res://joystick.gd" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://c4egprxkb4o00" path="res://clouds.gd" id="6_7mycd"]
+[ext_resource type="Script" uid="uid://y6x8t6usdhw8" path="res://flame.gd" id="6_kek77"]
+[ext_resource type="Script" uid="uid://bc80y36en2f8b" path="res://legs.gd" id="7_kek77"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kek77"]
+radius = 34.0
+height = 100.0
+
+[node name="Main" type="Node2D" unique_id=1365594376]
+script = ExtResource("1_h2yge")
+missile_scene = ExtResource("2_1bvp3")
+fuel_scene = ExtResource("3_272bh")
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=74185027]
+script = ExtResource("1_0xm2m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1637573096]
+position = Vector2(0, 5)
+shape = SubResource("CapsuleShape2D_kek77")
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=701358209]
+position_smoothing_enabled = true
+position_smoothing_speed = 6.0
+
+[node name="Visual" type="Node2D" parent="Player" unique_id=890433503]
+
+[node name="Flame" type="Node2D" parent="Player/Visual" unique_id=95303748]
+position = Vector2(-25, 40)
+script = ExtResource("6_kek77")
+size_scale = 0.3
+
+[node name="Legs" type="Node2D" parent="Player/Visual" unique_id=1132936406]
+position = Vector2(0, 36)
+script = ExtResource("7_kek77")
+pants_color = Color(0.24313726, 0.32941177, 0.40392157, 1)
+
+[node name="Body" type="Sprite2D" parent="Player/Visual" unique_id=1134027960]
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("5_5vw27")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=247958865]
+
+[node name="TimeLabel" type="Label" parent="HUD" unique_id=1054899328]
+offset_left = 40.0
+offset_top = 40.0
+offset_right = 167.0
+offset_bottom = 128.0
+theme_override_font_sizes/font_size = 64
+text = "0:00"
+
+[node name="Joystick" type="Control" parent="HUD" unique_id=2040295823]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_lquwl")
+
+[node name="EnergyBar" type="ProgressBar" parent="HUD" unique_id=1562783122]
+custom_minimum_size = Vector2(400, 30)
+offset_left = 40.0
+offset_top = 130.0
+offset_right = 44.0
+offset_bottom = 157.0
+value = 100.0
+show_percentage = false
+
+[node name="GameOver" type="Control" parent="HUD" unique_id=89593152]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="HUD/GameOver" unique_id=1627825310]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0, 0, 0, 0.50980395)
+
+[node name="Box" type="VBoxContainer" parent="HUD/GameOver" unique_id=2057197194]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="HUD/GameOver/Box" unique_id=2058671537]
+layout_mode = 2
+theme_override_font_sizes/font_size = 96
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="HUD/GameOver/Box" unique_id=1202659527]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Time"
+horizontal_alignment = 1
+
+[node name="BestLabel" type="Label" parent="HUD/GameOver/Box" unique_id=971375419]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Best"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="HUD/GameOver/Box" unique_id=1655157421]
+custom_minimum_size = Vector2(400, 140)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 56
+text = "RESTART"
+
+[node name="Clouds" type="Node2D" parent="." unique_id=876548616]
+script = ExtResource("6_7mycd")
